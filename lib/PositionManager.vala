@@ -24,6 +24,12 @@ namespace Plank {
   public class PositionManager : GLib.Object {
     public DockController controller { private get; construct; }
 
+    /**
+     * Emitted when the dock moves to a different monitor or the monitor's
+     * geometry changes. Listeners should refresh any monitor-dependent state.
+     */
+    public signal void dock_monitor_changed ();
+
     public bool screen_is_composited { get; private set; }
 
     Gdk.Rectangle static_dock_region;
@@ -123,6 +129,28 @@ namespace Plank {
         // Nothing important for us changed
         break;
       }
+    }
+
+    /**
+     * Get the geometry of the monitor this dock instance is currently on.
+     *
+     * @return the Gdk.Rectangle of the dock's monitor in screen coordinates
+     */
+    public Gdk.Rectangle get_dock_monitor_geometry () {
+      return monitor_geo;
+    }
+
+    /**
+     * Get the geometry of the monitor this dock instance is currently on.
+     *
+     * @param geo output rectangle filled with the monitor geometry
+     * @return true if the geometry was successfully retrieved
+     */
+    public bool try_get_dock_monitor_geometry (out Gdk.Rectangle geo) {
+      geo = monitor_geo;
+      // monitor_geo is always valid once initialize() has been called;
+      // width/height of 0 indicates it has not been set yet.
+      return (monitor_geo.width > 0 && monitor_geo.height > 0);
     }
 
     public string active_monitor () {
@@ -290,6 +318,8 @@ namespace Plank {
 
       Logger.verbose ("PositionManager.monitor_geo_changed (%i,%i-%ix%i)",
                       monitor_geo.x, monitor_geo.y, monitor_geo.width, monitor_geo.height);
+
+      dock_monitor_changed ();
 
       freeze_notify ();
 

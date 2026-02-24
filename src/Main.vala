@@ -56,7 +56,7 @@ namespace Plank {
               build_version: Build.VERSION,
               build_version_info: Build.VERSION_INFO,
 
-              program_name: "Plank Reloaded",
+              program_name: "Plank Reloaded Plus",
               exec_name: "plank",
 
               app_copyright: "2011-2026",
@@ -64,8 +64,8 @@ namespace Plank {
               app_icon: "plank-reloaded",
               app_launcher: "net.launchpad.plank.desktop",
 
-              main_url: "https://github.com/zquestz/plank-reloaded",
-              help_url: "https://github.com/zquestz/plank-reloaded/issues",
+              main_url: "https://github.com/cdmdotnet/plank-reloaded",
+              help_url: "https://github.com/cdmdotnet/plank-reloaded/issues",
               translate_url: "https://crowdin.com/project/plank-reloaded",
 
               about_authors: authors,

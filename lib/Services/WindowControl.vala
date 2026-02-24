@@ -328,6 +328,80 @@ namespace Plank {
       return workspace;
     }
 
+    /**
+     * Checks whether a window's centre-point lies within the given monitor rectangle.
+     *
+     * Uses the centre of the window rather than intersection so that a window
+     * that straddles two monitors is unambiguously assigned to one monitor.
+     *
+     * @param window the Wnck window to test
+     * @param monitor_geo the screen-coordinate rectangle of the monitor
+     * @return true if the window centre is inside monitor_geo
+     */
+    static bool window_is_on_monitor (Wnck.Window window, Gdk.Rectangle monitor_geo) {
+      Gdk.Rectangle geo = {};
+      window.get_geometry (out geo.x, out geo.y, out geo.width, out geo.height);
+      int cx = geo.x + geo.width / 2;
+      int cy = geo.y + geo.height / 2;
+      return (cx >= monitor_geo.x && cx < monitor_geo.x + monitor_geo.width
+              && cy >= monitor_geo.y && cy < monitor_geo.y + monitor_geo.height);
+    }
+
+    /**
+     * Counts the windows of an application that are on the given monitor.
+     *
+     * @param app the BAMF application
+     * @param monitor_geo the screen-coordinate rectangle of the target monitor
+     * @return number of non-skip-tasklist windows whose centre is on the monitor
+     */
+    public static int window_count_on_monitor (Bamf.Application app, Gdk.Rectangle monitor_geo) {
+      int count = 0;
+      foreach (unowned Wnck.Window window in get_ordered_window_stack (app)) {
+        if (window != null && !window.is_skip_tasklist ()
+            && window_is_on_monitor (window, monitor_geo))
+          count++;
+      }
+      return count;
+    }
+
+    /**
+     * Returns true if the application has at least one window on the given monitor.
+     *
+     * @param app the BAMF application
+     * @param monitor_geo the screen-coordinate rectangle of the target monitor
+     * @return true if any non-skip-tasklist window centre is on the monitor
+     */
+    public static bool has_window_on_monitor (Bamf.Application app, Gdk.Rectangle monitor_geo) {
+      foreach (unowned Wnck.Window window in get_ordered_window_stack (app)) {
+        if (window != null && !window.is_skip_tasklist ()
+            && window_is_on_monitor (window, monitor_geo))
+          return true;
+      }
+      return false;
+    }
+
+    /**
+     * Counts the windows of an application that are on the given monitor
+     * AND on the given workspace.
+     *
+     * @param app the BAMF application
+     * @param workspace the workspace to filter by
+     * @param monitor_geo the screen-coordinate rectangle of the target monitor
+     * @return number of matching windows
+     */
+    public static int window_on_workspace_and_monitor_count (Bamf.Application app, Wnck.Workspace workspace, Gdk.Rectangle monitor_geo) {
+      int count = 0;
+      var is_virtual = workspace.is_virtual ();
+      foreach (unowned Wnck.Window window in get_ordered_window_stack (app)) {
+        if (window == null || window.is_skip_tasklist ())
+          continue;
+        bool on_ws = is_virtual ? window.is_in_viewport (workspace) : window.is_on_workspace (workspace);
+        if (on_ws && window_is_on_monitor (window, monitor_geo))
+          count++;
+      }
+      return count;
+    }
+
     public static bool has_maximized_window (Bamf.Application app) {
       Array<uint32>? xids = app.get_xids ();
 

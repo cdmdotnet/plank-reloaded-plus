@@ -196,7 +196,7 @@ namespace Plank {
         debug ("done.");
       }
 
-      provider = new DefaultApplicationDockItemProvider (prefs, launchers_folder);
+      provider = new DefaultApplicationDockItemProvider (prefs, launchers_folder, position_manager);
 
       return provider;
     }

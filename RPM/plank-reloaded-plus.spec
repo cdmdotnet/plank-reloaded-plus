@@ -1,4 +1,4 @@
-Name:           plank-reloaded
+ Name:           plank-reloaded
 Version:        %{version}
 Release:        %{release}%{?dist}
 Summary:        Elegant and simple dock

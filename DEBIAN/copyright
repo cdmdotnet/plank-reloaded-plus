@@ -1,9 +1,10 @@
 Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
-Upstream-Name: plank-reloaded
-Source: https://github.com/zquestz/plank-reloaded
+Upstream-Name: plank-reloaded-plus
+Source: https://github.com/cdmdotnet/plank-reloaded
 
 Files: *
-Copyright: 2024-2025 Josh Ellithorpe <quest@mac.com>
+Copyright: 2025-2026 cdmdotnet Limited <support@cdmdotnet.com>
+           2024-2025 Josh Ellithorpe <quest@mac.com>
            2011-2024 Rico Tzschichholz <ricotz@ubuntu.com>
            2011-2024 Robert Dyer <psybers@gmail.com>
            2011-2024 Daniel Fore <daniel@elementaryos.org>

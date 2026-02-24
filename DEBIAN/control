@@ -1,15 +1,24 @@
-Package: plank-reloaded
+Package: plank-reloaded-plus
 Version: 0.11.166-1
 Priority: optional
 Section: x11
-Maintainer: Josh Ellithorpe <quest@mac.com>
+Maintainer: cdmdotnet Limited <support@cdmdotnet.com>
 Architecture: amd64
 Depends: bamfdaemon, libgee-0.8-2, libgnome-menu-3-0, libwnck-3-0, libc6
 Conflicts: plank, libplank-common, libplank1
-Homepage: https://github.com/zquestz/plank-reloaded
-Description: Elegant and simple dock.
- Plank Reloaded is a fork of the original Plank project, providing a simple dock
- for X11 desktop environments. While development began with a focus on Cinnamon,
- we now actively support multiple desktop environments including MATE and Xfce.
- Like its predecessor, Plank Reloaded aims to be the simplest dock on the
- planet, providing just what a dock needs and absolutely nothing more.
+Homepage: https://github.com/cdmdotnet/plank-reloaded
+Description: Elegant and simple dock with per-monitor window tracking.
+ Plank Reloaded Plus is a fork of Plank Reloaded, which itself is a fork of
+ the original Plank project. It provides a simple dock for X11 desktop
+ environments, actively supporting Cinnamon, MATE, Xfce, and KDE.
+ .
+ Building on Plank Reloaded's foundation, Plank Reloaded Plus introduces
+ enhanced multi-monitor awareness. Each dock instance tracks which monitor it
+ is running on and filters window indicators accordingly: pinned app indicators
+ only count windows present on the same monitor as the dock, and unpinned apps
+ are hidden from a dock instance when none of their windows are on that
+ monitor. This applies both when running one dock per monitor and when using
+ the single-instance "follow active monitor" mode.
+ .
+ Like its predecessors, Plank Reloaded Plus aims to be the simplest dock on
+ the planet, providing just what a dock needs and absolutely nothing more.

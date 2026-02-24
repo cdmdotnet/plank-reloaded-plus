@@ -37,6 +37,9 @@ namespace Plank {
     [Description (nick = "current-workspace-only", blurb = "Whether to show only windows of the current workspace.")]
     public bool CurrentWorkspaceOnly { get; set; }
 
+    [Description (nick = "only-active-monitor", blurb = "Whether to show only windows on the same monitor as this dock instance.")]
+    public bool OnlyActiveMonitor { get; set; }
+
     [Description (nick = "icon-size", blurb = "The size of dock icons (in pixels).")]
     public int IconSize { get; set; }
 

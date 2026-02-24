@@ -29,13 +29,14 @@ namespace Plank {
 
     /**
      * Fills geo with the screen-coordinate geometry of the monitor this dock
-     * instance is running on.
+     * instance is running on. Returns false (no filtering) when OnlyActiveMonitor
+     * is disabled or no PositionManager is available.
      *
      * @param geo output rectangle
-     * @return true if a valid monitor geometry is available (PositionManager present and initialised)
+     * @return true if monitor filtering is active and a valid geometry is available
      */
     public bool try_get_dock_monitor_geometry (out Gdk.Rectangle geo) {
-      if (PositionMgr == null) {
+      if (PositionMgr == null || !Prefs.OnlyActiveMonitor) {
         geo = Gdk.Rectangle ();
         return false;
       }
@@ -57,6 +58,7 @@ namespace Plank {
     {
       Prefs.notify["CurrentWorkspaceOnly"].connect (handle_setting_changed);
       Prefs.notify["PinnedOnly"].connect (handle_pinned_only_changed);
+      Prefs.notify["OnlyActiveMonitor"].connect (handle_only_active_monitor_changed);
 
       current_workspace_only = Prefs.CurrentWorkspaceOnly;
 
@@ -65,26 +67,40 @@ namespace Plank {
 
       if (PositionMgr != null) {
         PositionMgr.dock_monitor_changed.connect (handle_dock_monitor_changed);
-        connect_geometry_tracking ();
+        if (Prefs.OnlyActiveMonitor)
+          connect_geometry_tracking ();
       }
     }
 
     ~DefaultApplicationDockItemProvider () {
       Prefs.notify["CurrentWorkspaceOnly"].disconnect (handle_setting_changed);
       Prefs.notify["PinnedOnly"].disconnect (handle_pinned_only_changed);
+      Prefs.notify["OnlyActiveMonitor"].disconnect (handle_only_active_monitor_changed);
 
       if (current_workspace_only)
         disconnect_wnck ();
 
       if (PositionMgr != null) {
         PositionMgr.dock_monitor_changed.disconnect (handle_dock_monitor_changed);
-        disconnect_geometry_tracking ();
+        if (Prefs.OnlyActiveMonitor)
+          disconnect_geometry_tracking ();
       }
     }
 
     void handle_dock_monitor_changed () {
       // Re-evaluate which items are visible and update indicators now that
       // the dock has moved to (or its geometry changed on) a monitor.
+      if (Prefs.OnlyActiveMonitor)
+        update_visible_elements ();
+    }
+
+    void handle_only_active_monitor_changed () {
+      if (PositionMgr != null) {
+        if (Prefs.OnlyActiveMonitor)
+          connect_geometry_tracking ();
+        else
+          disconnect_geometry_tracking ();
+      }
       update_visible_elements ();
     }
 

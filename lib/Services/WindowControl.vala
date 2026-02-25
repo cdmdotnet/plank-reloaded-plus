@@ -577,6 +577,61 @@ namespace Plank {
       }
     }
 
+    /**
+     * Returns the Bamf.Window list that should be shown in the preview popup
+     * for a given app, filtered by workspace and/or monitor as appropriate.
+     *
+     * Only non-transient, user-visible windows are included.
+     *
+     * @param app              the BAMF application
+     * @param cw_only          whether to restrict to the current workspace
+     * @param has_monitor_geo  whether monitor filtering is active
+     * @param monitor_geo      the target monitor geometry (used when has_monitor_geo is true)
+     * @return                 ordered list of matching Bamf.Window objects
+     */
+    public static Gee.ArrayList<Bamf.Window> get_visible_windows_for_preview (
+        Bamf.Application app,
+        bool cw_only,
+        bool has_monitor_geo,
+        Gdk.Rectangle monitor_geo) {
+
+      var result = new Gee.ArrayList<Bamf.Window> ();
+
+      GLib.List<weak Bamf.Window>? windows = app.get_windows ();
+      if (windows == null)
+        return result;
+
+      unowned Wnck.Workspace? active_ws = cw_only
+          ? Wnck.Screen.get_default ().get_active_workspace ()
+          : null;
+
+      foreach (unowned Bamf.Window bamf_win in windows) {
+        if (bamf_win == null || bamf_win.get_transient () != null || !bamf_win.is_user_visible ())
+          continue;
+
+        if (cw_only && active_ws != null) {
+          unowned Wnck.Window? wnck = Wnck.Window.@get (bamf_win.get_xid ());
+          if (wnck == null)
+            continue;
+          bool on_ws = active_ws.is_virtual ()
+              ? wnck.is_in_viewport (active_ws)
+              : wnck.is_on_workspace (active_ws);
+          if (!on_ws)
+            continue;
+        }
+
+        if (has_monitor_geo) {
+          unowned Wnck.Window? wnck = Wnck.Window.@get (bamf_win.get_xid ());
+          if (wnck == null || !window_is_on_monitor (wnck, monitor_geo))
+            continue;
+        }
+
+        result.add (bamf_win);
+      }
+
+      return result;
+    }
+
     public static void focus_window (Bamf.Window window, uint32 event_time) {
       unowned Wnck.Window w = Wnck.Window.@get (window.get_xid ());
 

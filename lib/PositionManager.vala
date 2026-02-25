@@ -1412,6 +1412,51 @@ namespace Plank {
      * @param x the resulting x position
      * @param y the resulting y position
      */
+    /**
+     * Gets the x/y anchor point for positioning the window preview popup.
+     * Unlike get_hover_position, this is anchored to the actual dock face
+     * (not the zoomed icon tip) so the preview is always flush with the dock
+     * edge regardless of zoom state.
+     *
+     * @param hovered the hovered item
+     * @param x       screen x of the icon centre along the dock face
+     * @param y       screen y of the dock face edge (the edge closest to the preview)
+     */
+    /**
+     * Gets the anchor point for the window preview popup and the zoom clearance.
+     *
+     * @param hovered        the hovered item
+     * @param x              screen x of the icon centre along the dock face
+     * @param y              the dock face edge coordinate (preview window must touch this)
+     * @param zoom_clearance pixels the preview's transparent strip must span to clear
+     *                       the fully-zoomed icon (= ZoomIconSize - IconSize, ≥ 0)
+     */
+    public void get_preview_position (DockItem hovered, out int x, out int y, out int zoom_clearance) {
+      var center = get_draw_value_for_item (hovered).static_center;
+      var dock_region = get_static_dock_region ();
+      zoom_clearance = ZoomIconSize - IconSize;
+
+      switch (Position) {
+      default:
+      case Gtk.PositionType.BOTTOM:
+        x = (int) Math.round (center.x + win_x);
+        y = dock_region.y;
+        break;
+      case Gtk.PositionType.TOP:
+        x = (int) Math.round (center.x + win_x);
+        y = dock_region.y + dock_region.height;
+        break;
+      case Gtk.PositionType.LEFT:
+        x = dock_region.x + dock_region.width;
+        y = (int) Math.round (center.y + win_y);
+        break;
+      case Gtk.PositionType.RIGHT:
+        x = dock_region.x;
+        y = (int) Math.round (center.y + win_y);
+        break;
+      }
+    }
+
     public void get_menu_position (DockItem hovered, Gtk.Requisition requisition, out int x, out int y) {
       var rect = get_hover_region_for_element (hovered);
 

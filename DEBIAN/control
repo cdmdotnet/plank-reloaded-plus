@@ -11,7 +11,7 @@ Description: Elegant and simple dock with per-monitor window tracking.
  Plank Reloaded Plus is a fork of Plank Reloaded, which itself is a fork of
  the original Plank project. It provides a simple dock for X11 desktop
  environments, actively supporting Cinnamon, MATE, Xfce, and KDE.
- .
+ 
  Building on Plank Reloaded's foundation, Plank Reloaded Plus introduces
  enhanced multi-monitor awareness. Each dock instance tracks which monitor it
  is running on and filters window indicators accordingly: pinned app indicators
@@ -19,6 +19,6 @@ Description: Elegant and simple dock with per-monitor window tracking.
  are hidden from a dock instance when none of their windows are on that
  monitor. This applies both when running one dock per monitor and when using
  the single-instance "follow active monitor" mode.
- .
+ 
  Like its predecessors, Plank Reloaded Plus aims to be a mildy simple dock on
  the planet, providing just what a dock needs (in my opinion) and almost nothing more.

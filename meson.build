@@ -1,5 +1,5 @@
 project(
-  'plank-reloaded',
+  'plank-reloaded-plus',
   'c',
   'cpp',
   'vala',

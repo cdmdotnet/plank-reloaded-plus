@@ -1,10 +1,10 @@
- Name:           plank-reloaded
+Name:           plank-reloaded-plus
 Version:        %{version}
 Release:        %{release}%{?dist}
-Summary:        Elegant and simple dock
+Summary:        Elegant and mildly simple dock
 
 License:        GPL-3.0-or-later
-URL:            https://github.com/zquestz/plank-reloaded
+URL:            https://github.com/cdmdotnet/plank-reloaded
 Source0:        %{name}-%{version}.tar.gz
 
 BuildRequires:  gcc

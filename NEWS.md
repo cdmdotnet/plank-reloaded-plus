@@ -1,6 +1,12 @@
-# Plank Reloaded: Still stupidly simple
+# Plank Reloaded Plus: Still mildy simple
 
 **Note:** There is no stability of ABI/API until further notice!
+
+## 0.12.1 "Reloaded Plus" (2026-02-25)
+
+- Fork from plank-reloaded as plank-reloaded-plus
+- Add per-monitor window indicator filtering and unpinned app hiding
+- Support both multi-instance (one dock per monitor) and "follow active monitor" configurations
 
 ## 0.11.166 "Reloaded" (2026-02-13)
 

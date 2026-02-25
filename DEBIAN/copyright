@@ -1,6 +1,6 @@
 Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 Upstream-Name: plank-reloaded-plus
-Source: https://github.com/cdmdotnet/plank-reloaded
+Source: https://github.com/cdmdotnet/plank-reloaded-plus
 
 Files: *
 Copyright: 2025-2026 cdmdotnet Limited <support@cdmdotnet.com>

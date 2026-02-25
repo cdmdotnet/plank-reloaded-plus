@@ -64,8 +64,8 @@ namespace Plank {
               app_icon: "plank-reloaded",
               app_launcher: "net.launchpad.plank.desktop",
 
-              main_url: "https://github.com/cdmdotnet/plank-reloaded",
-              help_url: "https://github.com/cdmdotnet/plank-reloaded/issues",
+              main_url: "https://github.com/cdmdotnet/plank-reloaded-plus",
+              help_url: "https://github.com/cdmdotnet/plank-reloaded-plus/issues",
               translate_url: "https://crowdin.com/project/plank-reloaded",
 
               about_authors: authors,

@@ -1,6 +1,6 @@
 # Plank Reloaded Plus
 
-[![GitHub Release](https://img.shields.io/github/v/release/cdmdotnet/plank-reloaded)](https://github.com/cdmdotnet/plank-reloaded/releases) [![Crowdin](https://badges.crowdin.net/plank-reloaded/localized.svg)](https://crowdin.com/project/plank-reloaded)
+[![GitHub Release](https://img.shields.io/github/v/release/cdmdotnet/plank-reloaded)](https://github.com/cdmdotnet/plank-reloaded-plus/releases) [![Crowdin](https://badges.crowdin.net/plank-reloaded/localized.svg)](https://crowdin.com/project/plank-reloaded)
 
 ## What Is Plank Reloaded Plus?
 
@@ -57,7 +57,7 @@ sudo apt install plank-reloaded
 
 #### Option 2: Manual Installation
 
-You can download the `plank-reloaded-plus.deb` package from the [Releases](https://github.com/cdmdotnet/plank-reloaded/releases) page or build from source using the instructions below.
+You can download the `plank-reloaded-plus.deb` package from the [Releases](https://github.com/cdmdotnet/plank-reloaded-plus/releases) page or build from source using the instructions below.
 
 ```bash
 # Completely uninstall plank
@@ -67,7 +67,7 @@ sudo apt-get remove plank libplank-common libplank1
 sudo apt-get install git meson gettext valac libgnome-menu-3.0 libgnome-menu-3-dev libxml2-utils gtk+-3.0 gee-0.8 libbamf3-dev libwnck-3.0 libwnck-3-dev bamfdaemon
 
 # Clone the repository
-git clone https://github.com/cdmdotnet/plank-reloaded.git
+git clone https://github.com/cdmdotnet/plank-reloaded-plus.git
 
 # Enter the directory
 cd plank-reloaded
@@ -99,7 +99,7 @@ sudo apt install plank-reloaded
 
 #### Option 2: Manual Installation
 
-You can download the `plank-reloaded-plus-debian.deb` package from the [Releases](https://github.com/cdmdotnet/plank-reloaded/releases) page or build from source using the instructions below.
+You can download the `plank-reloaded-plus-debian.deb` package from the [Releases](https://github.com/cdmdotnet/plank-reloaded-plus/releases) page or build from source using the instructions below.
 
 ```bash
 # Completely uninstall plank
@@ -109,7 +109,7 @@ sudo apt-get remove plank libplank-common libplank1
 sudo apt-get install git meson gettext valac libgnome-menu-3.0 libgnome-menu-3-dev libxml2-utils gtk+-3.0 gee-0.8 libbamf3-dev libwnck-3.0 libwnck-3-dev bamfdaemon
 
 # Clone the repository
-git clone https://github.com/cdmdotnet/plank-reloaded.git
+git clone https://github.com/cdmdotnet/plank-reloaded-plus.git
 
 # Enter the directory
 cd plank-reloaded

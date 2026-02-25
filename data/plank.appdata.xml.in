@@ -22,10 +22,10 @@
     <keyword>panel</keyword>
     <keyword>start</keyword>
   </keywords>
-  <url type="homepage">https://github.com/cdmdotnet/plank-reloaded</url>
-  <url type="bugtracker">https://github.com/cdmdotnet/plank-reloaded/issues</url>
-  <url type="faq">https://github.com/cdmdotnet/plank-reloaded</url>
-  <url type="translate">https://github.com/cdmdotnet/plank-reloaded</url>
+  <url type="homepage">https://github.com/cdmdotnet/plank-reloaded-plus</url>
+  <url type="bugtracker">https://github.com/cdmdotnet/plank-reloaded-plus/issues</url>
+  <url type="faq">https://github.com/cdmdotnet/plank-reloaded-plus</url>
+  <url type="translate">https://github.com/cdmdotnet/plank-reloaded-plus</url>
   <provides>
     <library>libplank.so.1</library>
     <binary>plank</binary>

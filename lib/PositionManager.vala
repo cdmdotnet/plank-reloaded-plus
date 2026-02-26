@@ -24,6 +24,12 @@ namespace Plank {
   public class PositionManager : GLib.Object {
     public DockController controller { private get; construct; }
 
+    /**
+     * Emitted when the dock moves to a different monitor or the monitor's
+     * geometry changes. Listeners should refresh any monitor-dependent state.
+     */
+    public signal void dock_monitor_changed ();
+
     public bool screen_is_composited { get; private set; }
 
     Gdk.Rectangle static_dock_region;
@@ -123,6 +129,28 @@ namespace Plank {
         // Nothing important for us changed
         break;
       }
+    }
+
+    /**
+     * Get the geometry of the monitor this dock instance is currently on.
+     *
+     * @return the Gdk.Rectangle of the dock's monitor in screen coordinates
+     */
+    public Gdk.Rectangle get_dock_monitor_geometry () {
+      return monitor_geo;
+    }
+
+    /**
+     * Get the geometry of the monitor this dock instance is currently on.
+     *
+     * @param geo output rectangle filled with the monitor geometry
+     * @return true if the geometry was successfully retrieved
+     */
+    public bool try_get_dock_monitor_geometry (out Gdk.Rectangle geo) {
+      geo = monitor_geo;
+      // monitor_geo is always valid once initialize() has been called;
+      // width/height of 0 indicates it has not been set yet.
+      return (monitor_geo.width > 0 && monitor_geo.height > 0);
     }
 
     public string active_monitor () {
@@ -290,6 +318,8 @@ namespace Plank {
 
       Logger.verbose ("PositionManager.monitor_geo_changed (%i,%i-%ix%i)",
                       monitor_geo.x, monitor_geo.y, monitor_geo.width, monitor_geo.height);
+
+      dock_monitor_changed ();
 
       freeze_notify ();
 
@@ -1382,6 +1412,51 @@ namespace Plank {
      * @param x the resulting x position
      * @param y the resulting y position
      */
+    /**
+     * Gets the x/y anchor point for positioning the window preview popup.
+     * Unlike get_hover_position, this is anchored to the actual dock face
+     * (not the zoomed icon tip) so the preview is always flush with the dock
+     * edge regardless of zoom state.
+     *
+     * @param hovered the hovered item
+     * @param x       screen x of the icon centre along the dock face
+     * @param y       screen y of the dock face edge (the edge closest to the preview)
+     */
+    /**
+     * Gets the anchor point for the window preview popup and the zoom clearance.
+     *
+     * @param hovered        the hovered item
+     * @param x              screen x of the icon centre along the dock face
+     * @param y              the dock face edge coordinate (preview window must touch this)
+     * @param zoom_clearance pixels the preview's transparent strip must span to clear
+     *                       the fully-zoomed icon (= ZoomIconSize - IconSize, ≥ 0)
+     */
+    public void get_preview_position (DockItem hovered, out int x, out int y, out int zoom_clearance) {
+      var center = get_draw_value_for_item (hovered).static_center;
+      var dock_region = get_static_dock_region ();
+      zoom_clearance = ZoomIconSize - IconSize;
+
+      switch (Position) {
+      default:
+      case Gtk.PositionType.BOTTOM:
+        x = (int) Math.round (center.x + win_x);
+        y = dock_region.y;
+        break;
+      case Gtk.PositionType.TOP:
+        x = (int) Math.round (center.x + win_x);
+        y = dock_region.y + dock_region.height;
+        break;
+      case Gtk.PositionType.LEFT:
+        x = dock_region.x + dock_region.width;
+        y = (int) Math.round (center.y + win_y);
+        break;
+      case Gtk.PositionType.RIGHT:
+        x = dock_region.x;
+        y = (int) Math.round (center.y + win_y);
+        break;
+      }
+    }
+
     public void get_menu_position (DockItem hovered, Gtk.Requisition requisition, out int x, out int y) {
       var rect = get_hover_region_for_element (hovered);
 

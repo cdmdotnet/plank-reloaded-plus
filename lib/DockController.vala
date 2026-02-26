@@ -38,6 +38,7 @@ namespace Plank {
     public DockRenderer renderer { get; protected set; }
     public DockWindow window { get; protected set; }
     public HoverWindow hover { get; protected set; }
+    public WindowPreviewWindow window_preview { get; protected set; }
 
     public DockItemProvider? default_provider { get; private set; }
 
@@ -103,6 +104,7 @@ namespace Plank {
       hide_manager = new HideManager (this);
       window = new DockWindow (this);
       hover = new HoverWindow ();
+      window_preview = new WindowPreviewWindow ();
       renderer = new DockRenderer (this, window);
     }
 
@@ -196,7 +198,7 @@ namespace Plank {
         debug ("done.");
       }
 
-      provider = new DefaultApplicationDockItemProvider (prefs, launchers_folder);
+      provider = new DefaultApplicationDockItemProvider (prefs, launchers_folder, position_manager);
 
       return provider;
     }

@@ -1,6 +1,16 @@
-# Plank Reloaded: Still stupidly simple
+# Plank Reloaded Plus: Still mildly simple
 
 **Note:** There is no stability of ABI/API until further notice!
+
+## 0.12.1 "Plus" (2026-02-26)
+
+- Add window preview popup on hover for running application icons
+- Preview shows thumbnail cards (200×120) for each open window with title labels
+- Left-click a preview card to focus that window; middle-click to close it
+- Hovering a preview card outlines the corresponding live desktop window with a border
+- Preview Windows toggle added to Behaviour preferences (on by default)
+- Multi-monitor window indicator dots filtered per-monitor when Only Active Monitor is enabled
+- Only Active Monitor: when enabled, clicking an app icon with a single window on this monitor focuses it directly without smart-focus across all monitors
 
 ## 0.11.166 "Reloaded" (2026-02-13)
 

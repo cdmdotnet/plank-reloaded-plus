@@ -1,3 +1,15 @@
+plank-reloaded-plus (0.12.1) unstable; urgency=medium
+
+  * Add window preview popup on hover for running application icons
+  * Preview shows thumbnail cards (200×120) for each open window with title labels
+  * Left-click a preview card to focus that window; middle-click to close it
+  * Hovering a preview card outlines the corresponding live desktop window with a border
+  * Preview Windows toggle added to Behaviour preferences (on by default)
+  * Multi-monitor window indicator dots filtered per-monitor when Only Active Monitor is enabled
+  * Only Active Monitor: when enabled, clicking an app icon with a single window on this monitor focuses it directly without smart-focus across all monitors
+
+ -- cdmdotnet Limited <support@cdmdotnet.com>  Tue, 24 Feb 2026 12:00:00 +0000
+
 plank-reloaded (0.11.166-1) unstable; urgency=high
 
   * Fix struts double-scaling on HiDPI and xrandr multi-monitor setups

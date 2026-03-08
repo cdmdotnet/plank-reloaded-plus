@@ -62,10 +62,10 @@ You can download the `plank-reloaded-plus.deb` package from the [Releases](https
 
 ```bash
 # Completely uninstall plank
-sudo apt-get remove plank libplank-common libplank1
+sudo apt remove plank libplank-common libplank1
 
 # Install required dependencies
-sudo apt-get install git meson gettext valac libgnome-menu-3.0 libgnome-menu-3-dev libxml2-utils gtk+-3.0 gee-0.8 libbamf3-dev libwnck-3.0 libwnck-3-dev bamfdaemon
+sudo apt install git meson gettext valac libgnome-menu-3.0 libgnome-menu-3-dev libxml2-utils gtk+-3.0 gee-0.8 libbamf3-dev libwnck-3.0 libwnck-3-dev bamfdaemon
 
 # Clone the repository
 git clone https://github.com/cdmdotnet/plank-reloaded-plus.git
@@ -104,10 +104,10 @@ You can download the `plank-reloaded-plus-debian.deb` package from the [Releases
 
 ```bash
 # Completely uninstall plank
-sudo apt-get remove plank libplank-common libplank1
+sudo apt remove plank libplank-common libplank1
 
 # Install required dependencies
-sudo apt-get install git meson gettext valac libgnome-menu-3.0 libgnome-menu-3-dev libxml2-utils gtk+-3.0 gee-0.8 libbamf3-dev libwnck-3.0 libwnck-3-dev bamfdaemon
+sudo apt install git meson gettext valac libgnome-menu-3.0 libgnome-menu-3-dev libxml2-utils gtk+-3.0 gee-0.8 libbamf3-dev libwnck-3.0 libwnck-3-dev bamfdaemon
 
 # Clone the repository
 git clone https://github.com/cdmdotnet/plank-reloaded-plus.git

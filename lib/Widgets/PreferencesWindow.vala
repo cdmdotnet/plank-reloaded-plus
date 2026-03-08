@@ -266,6 +266,8 @@ namespace Plank {
     }
 
     void primary_display_toggled (GLib.Object widget, ParamSpec param) {
+      if (prefs.managed_instance)
+        return;
       if (((Gtk.Switch) widget).get_active ()) {
         prefs.Monitor = "";
         cb_display_plug.sensitive = false;
@@ -403,8 +405,11 @@ namespace Plank {
         sw_primary_display.set_active (true);
       }
 
-      bool should_be_sensitive = (prefs.Monitor != "" && !prefs.ActiveDisplay);
+      // When managed by monitor manager, neither control can be changed.
+      bool should_be_sensitive = (prefs.Monitor != "" && !prefs.ActiveDisplay && !prefs.managed_instance);
       cb_display_plug.sensitive = should_be_sensitive;
+      sw_active_display.sensitive = !prefs.managed_instance;
+      sw_primary_display.sensitive = !prefs.managed_instance;
 
       refreshing_display_plugs = false;
     }
@@ -506,9 +511,16 @@ namespace Plank {
       s_zoom_percent.sensitive = prefs.ZoomEnabled;
       sw_hide.set_active (prefs.HideMode != HideType.NONE);
       sw_primary_display.set_active (prefs.Monitor == "");
+      sw_primary_display.sensitive = !prefs.managed_instance;
       sw_active_display.set_active (prefs.ActiveDisplay);
       adj_active_display_polling_interval.value = prefs.ActiveDisplayPollingInterval;
-      if (prefs.ActiveDisplay) {
+      if (prefs.managed_instance) {
+        // Managed by monitor manager — lock both controls so the user
+        // cannot override the assigned monitor or enable active display.
+        cb_display_plug.sensitive = false;
+        sw_active_display.sensitive = false;
+        s_active_display_polling_interval.sensitive = false;
+      } else if (prefs.ActiveDisplay) {
         cb_display_plug.sensitive = false;
         s_active_display_polling_interval.sensitive = true;
       } else if (prefs.Monitor == "") {

@@ -32,6 +32,13 @@ namespace Plank {
 
     public DockPreferences prefs { get; construct; }
 
+    /**
+     * True when this dock instance is created for and "owned" by the
+     * monitor-manager parent process. In this mode the monitor assignment
+     * is fixed to a specific plug-name and related preferences are locked.
+     */
+    public bool ManagedByMonitorManager { get; set; default = false; }
+
     public DragManager drag_manager { get; protected set; }
     public HideManager hide_manager { get; protected set; }
     public PositionManager position_manager { get; protected set; }

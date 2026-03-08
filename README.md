@@ -26,6 +26,7 @@ Plank Reloaded Plus is a fork of Plank Reloaded, which itself is a fork of
 
 - Those from Plank Reloaded
 - Each dock instance now tracks which monitor it is running on and counts only windows present on that monitor when displaying app indicators
+- Optional monitor-manager mode (`plank --monitor-manager`) that automatically runs one dock per connected monitor, using GDK monitor names instead of xrandr and keeping each dock pinned to its assigned display
 
 ## Installation
 
@@ -345,7 +346,9 @@ Add Plank Reloaded to your desktop environment's startup applications. The comma
 <details markdown="1">
 <summary><strong>Does Plank Reloaded work with multiple monitors?</strong></summary>
 
-Yes, Plank Reloaded works with multiple monitors. To have a dock on each monitor, you need to launch multiple instances with different names:
+Yes, Plank Reloaded works with multiple monitors.
+
+For manual setups, you can still launch multiple instances with different names:
 
 ```bash
 # Launch first dock
@@ -357,9 +360,17 @@ plank -n dock2
 
 Each instance can be configured independently.
 
+For automatic one-dock-per-monitor management, you can instead run the built-in monitor manager:
+
+```bash
+plank --monitor-manager
+```
+
+This mode uses GDK monitor plug-names (not xrandr output names) to automatically start one dock per connected monitor and stop docks when monitors are disconnected. Each child dock is pinned to the monitor it was started for, and its monitor/“On Active Display” settings are locked while under manager control.
+
 #### Moving Docks Between Monitors
 
-You can move docks to your active monitor (where your cursor is) by enabling "On Active Display" in the preferences or by sending a USR1 signal to the plank process:
+Outside of monitor-manager mode, you can move docks to your active monitor (where your cursor is) by enabling "On Active Display" in the preferences or by sending a USR1 signal to the plank process:
 
 ```bash
 killall -USR1 plank

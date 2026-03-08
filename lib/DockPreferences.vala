@@ -61,6 +61,14 @@ namespace Plank {
     [Description (nick = "monitor", blurb = "The plug-name of the monitor for the dock to show on (e.g. DVI-I-1, HDMI1, LVDS1). Leave this empty to keep on the primary monitor.")]
     public string Monitor { get; set; }
 
+    /**
+     * Set to true when this dock instance is launched by the monitor manager
+     * (via --assigned-monitor).  Not persisted to disk — runtime flag only.
+     * When true, the Monitor and Active Display controls in preferences are
+     * locked so the user cannot override the manager's assignment.
+     */
+    public bool managed_instance = false;
+
     [Description (nick = "active-display", blurb = "Whether to automatically follow the active display (where the cursor is).")]
     public bool ActiveDisplay { get; set; }
 

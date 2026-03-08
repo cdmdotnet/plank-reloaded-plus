@@ -2,15 +2,27 @@
 
 **Note:** There is no stability of ABI/API until further notice!
 
+## 0.12.2 "Plus" (2026-03-08)
+
+- Add `--monitor-manager` mode: automatically opens a dock on each connected monitor, opens a new dock when a monitor is plugged in, and closes the dock when a monitor is unplugged — no script or manual per-monitor configuration needed
+- When a monitor is unplugged, its dock is asked to close gracefully rather than being forcibly killed, preserving any saved settings
+- Monitor manager exits automatically when all dock instances have been closed
+
 ## 0.12.1 "Plus" (2026-02-26)
 
 - Add window preview popup on hover for running application icons
 - Preview shows thumbnail cards (200×120) for each open window with title labels
 - Left-click a preview card to focus that window; middle-click to close it
-- Hovering a preview card outlines the corresponding live desktop window with a border
-- Preview Windows toggle added to Behaviour preferences (on by default)
-- Multi-monitor window indicator dots filtered per-monitor when Only Active Monitor is enabled
+- Hovering a preview card outlines the corresponding live desktop window with a blue border
+- Preview popup inherits the user's active GTK tooltip theme colours (background, border, and text)
+- Preview Windows toggle added to Behaviour preferences (on by default); Tooltips Enabled moved to last position
+- Transparent dock-side strip on the preview window ensures seamless mouse travel from dock icon to preview cards at any speed, including with icon zoom active
+- Icon zoom effect stays active while the preview popup is open; dock does not hide
+- Zoomed icon always appears visually in front of the preview popup regardless of zoom level or zoom percentage setting
+- Desktop window highlight overlay renders behind the preview popup, not in front of it
 - Only Active Monitor: when enabled, clicking an app icon with a single window on this monitor focuses it directly without smart-focus across all monitors
+- Only Active Monitor: clicking an app icon with multiple windows on this monitor shows the preview to let you choose
+- Multi-monitor window indicator dots filtered per-monitor when Only Active Monitor is enabled
 
 ## 0.11.166 "Reloaded" (2026-02-13)
 

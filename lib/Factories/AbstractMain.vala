@@ -317,17 +317,17 @@ namespace Plank {
     protected virtual void create_docks () {
       if (dock_name != null && dock_name != "") {
         message ("Running with 1 dock ('%s')", dock_name);
-        var dock = create_dock (dock_name);
+        var dock = create_dock_uninit (dock_name);
         // If MonitorManager assigned this instance to a specific monitor,
-        // lock it in: force the Monitor preference to the assigned output,
-        // disable ActiveDisplay (the manager owns placement, not the cursor),
-        // and mark the instance as managed so PreferencesWindow can lock
-        // those controls against user changes.
+        // lock it in BEFORE initialize() so PositionManager reads the correct
+        // monitor geometry from the very first frame — avoiding an initial
+        // placement on the wrong monitor followed by a corrective re-layout.
         if (assigned_monitor != "") {
           dock.prefs.Monitor = assigned_monitor;
           dock.prefs.ActiveDisplay = false;
           dock.prefs.managed_instance = true;
         }
+        dock.initialize ();
         add_dock (dock);
         return;
       }
@@ -358,6 +358,14 @@ namespace Plank {
       dock.initialize ();
 
       return dock;
+    }
+
+    // Like create_dock() but does NOT call dock.initialize(), so the caller
+    // can apply prefs overrides (e.g. assigned monitor) before initialization.
+    DockController create_dock_uninit (string dock_name) {
+      var config_folder = Paths.AppConfigFolder.get_child (dock_name);
+      Paths.ensure_directory_exists (config_folder);
+      return new DockController (dock_name, config_folder);
     }
 
     void add_dock (DockController dock) {

@@ -31,6 +31,8 @@ test-suite.log
 *.la
 *.gcda
 *.gcno
+*.deb
+*.sh
 coverage.xml
 coverage.info
 coveragereport

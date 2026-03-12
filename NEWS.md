@@ -2,6 +2,14 @@
 
 **Note:** There is no stability of ABI/API until further notice!
 
+## 0.12.3 "Plus" (2026-03-12)
+
+- Fix monitor manager child instances starting on the wrong monitor: managed dock prefs (Monitor, ActiveDisplay) are now applied before PositionManager initialises, so the dock renders at the correct position from the first frame
+- Fix DBus object path assertion failures for monitors with hyphens in their names (e.g. DP-2-8): illegal characters are sanitised to underscores before use in the path
+- Fix position retry storm: raise retry ceiling from 3 to 10 with verbose logging, then warn once and stop fighting the WM rather than spamming CRITICAL on every configure event
+- Fix On Primary Display and Active Display preference controls not being locked when running as a monitor manager child instance; all three monitor-related controls are now insensitive when managed
+- Fix monitor manager not exiting when its only child dock is closed: remove unreliable loop.is_running() guard from the auto-quit check
+
 ## 0.12.2 "Plus" (2026-03-08)
 
 - Add `--monitor-manager` mode: automatically opens a dock on each connected monitor, opens a new dock when a monitor is plugged in, and closes the dock when a monitor is unplugged — no script or manual per-monitor configuration needed

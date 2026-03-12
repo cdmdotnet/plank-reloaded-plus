@@ -338,12 +338,15 @@ namespace Plank {
                           || win_rect.x != event.x || win_rect.y != event.y);
 
       if (needs_update) {
-        // When adjusting the position of the dock, sometimes it needs to
-        // position twice.
-        if (++window_position_retry < 3) {
+        // Retry repositioning to overcome initial WM placement correction.
+        // Cap at 10 attempts: beyond that the WM is actively overriding our
+        // position (e.g. Muffin reserving strut space) and we must accept it.
+        if (++window_position_retry <= 10) {
+          Logger.verbose ("DockWindow.configure_event: position mismatch (retry %i), re-requesting", window_position_retry);
           update_size_and_position ();
-        } else {
-          critical ("Retry #%i update_size_and_position() to force requested values!", window_position_retry);
+        } else if (window_position_retry == 11) {
+          // Log once at the give-up point; don't spam on every subsequent event.
+          warning ("DockWindow: WM overriding dock position after %i retries — accepting WM placement", window_position_retry - 1);
         }
       } else {
         window_position_retry = 0;

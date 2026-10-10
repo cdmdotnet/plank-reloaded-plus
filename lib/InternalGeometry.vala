@@ -447,4 +447,21 @@ namespace Plank {
     return ((x >= span.x && x < span.x + span.width && y >= span.y && y < span.y + span.height)
             || (x >= dock.x && x < dock.x + dock.width && y >= dock.y && y < dock.y + dock.height));
   }
+
+  /**
+   * Whether a window belongs to a monitor, judged by its center, so a window
+   * spanning two monitors belongs to exactly one of them, and one off every
+   * monitor to none. Pure math, testable in isolation.
+   *
+   * @param window the window's frame
+   * @param monitor the monitor, in the same pixels as the window
+   * @return whether the window's center is on the monitor
+   */
+  public static bool window_on_monitor (Gdk.Rectangle window, Gdk.Rectangle monitor) {
+    var x = window.x + window.width / 2;
+    var y = window.y + window.height / 2;
+
+    return (x >= monitor.x && x < monitor.x + monitor.width
+            && y >= monitor.y && y < monitor.y + monitor.height);
+  }
 }

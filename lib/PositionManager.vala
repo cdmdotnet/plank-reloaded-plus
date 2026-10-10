@@ -123,7 +123,7 @@ namespace Plank {
       controller.window.notify["scale-factor"].connect (window_scale_factor_changed);
 
       var display = screen.get_display ();
-      monitor_num = find_monitor_number (screen, controller.prefs.Monitor);
+      monitor_num = find_monitor_number (screen, controller.monitor_plug_name ());
       var monitor = display.get_monitor (monitor_num);
 
       update_monitor_geo (monitor);
@@ -134,7 +134,7 @@ namespace Plank {
 
       screen_is_composited = screen.is_composited ();
 
-      if (controller.prefs.ActiveDisplay) {
+      if (controller.follows_active_display ()) {
         start_active_display_polling ();
       }
     }
@@ -429,6 +429,10 @@ namespace Plank {
     }
 
     public void move_to_active_monitor () {
+      // A dock assigned its monitor stays on it
+      if (controller.assigned_monitor != "")
+        return;
+
       string monitor_name = active_monitor ();
 
       if (controller.prefs.Monitor != monitor_name) {
@@ -466,7 +470,7 @@ namespace Plank {
         follow_monitor = null;
       }
 
-      if (monitor_name == controller.prefs.Monitor)
+      if (monitor_name == controller.monitor_plug_name ())
         return;
 
       if (!pointer_on_monitor_past_dock_edge ()) {
@@ -572,7 +576,7 @@ namespace Plank {
     }
 
     void prefs_active_display_changed () {
-      if (controller.prefs.ActiveDisplay) {
+      if (controller.follows_active_display ()) {
         start_active_display_polling ();
       } else {
         stop_active_display_polling ();
@@ -580,7 +584,7 @@ namespace Plank {
     }
 
     void prefs_active_display_polling_interval_changed () {
-      if (controller.prefs.ActiveDisplay) {
+      if (controller.follows_active_display ()) {
         stop_active_display_polling ();
         start_active_display_polling ();
       }
@@ -652,7 +656,7 @@ namespace Plank {
       var old_monitor_num = monitor_num;
 
       var display = screen.get_display ();
-      monitor_num = find_monitor_number (screen, controller.prefs.Monitor);
+      monitor_num = find_monitor_number (screen, controller.monitor_plug_name ());
       var monitor = display.get_monitor (monitor_num);
 
       // A different monitor starts from scratch: margins are per-monitor
@@ -2382,7 +2386,7 @@ namespace Plank {
       // rectangle could even wrap the depth arithmetic once the root
       // shrinks)
       unowned Gdk.Screen screen = controller.window.get_screen ();
-      if (find_monitor_number (screen, controller.prefs.Monitor) != monitor_num)
+      if (find_monitor_number (screen, controller.monitor_plug_name ()) != monitor_num)
         return;
 
       var raw_geo = screen.get_display ().get_monitor (monitor_num).get_geometry ();

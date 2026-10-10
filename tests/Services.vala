@@ -131,6 +131,9 @@ namespace PlankTests {
     Test.add_func ("/Services/PreviewPosition/clamped", preview_position_clamped);
     Test.add_func ("/Services/PreviewZone/bottom", preview_zone_bottom);
     Test.add_func ("/Services/PreviewZone/side", preview_zone_side);
+    Test.add_func ("/Services/WindowOnMonitor/inside", window_on_monitor_inside);
+    Test.add_func ("/Services/WindowOnMonitor/spanning", window_on_monitor_spanning);
+    Test.add_func ("/Services/WindowOnMonitor/edges", window_on_monitor_edges);
   }
 
   void matcher_desktop_file_for_window_class () {
@@ -2205,5 +2208,63 @@ namespace PlankTests {
     // The span's bottom edge is excluded, as in the rectangles it comes from
     assert (point_in_preview_zone (70, 679, popup, item, dock));
     assert (!point_in_preview_zone (70, 680, popup, item, dock));
+  }
+
+  void window_on_monitor_inside () {
+    // A window wholly on a monitor belongs to it and not to its neighbour,
+    // on a monitor away from the origin too
+    Gdk.Rectangle left = { 0, 0, 1920, 1080 };
+    Gdk.Rectangle right = { 1920, 200, 2560, 1440 };
+    Gdk.Rectangle on_left = { 100, 100, 800, 600 };
+    Gdk.Rectangle on_right = { 2400, 500, 1000, 700 };
+    assert (window_on_monitor (on_left, left));
+    assert (!window_on_monitor (on_left, right));
+    assert (window_on_monitor (on_right, right));
+    assert (!window_on_monitor (on_right, left));
+
+    // A window filling its monitor, as maximized, belongs to it
+    assert (window_on_monitor (right, right));
+    assert (!window_on_monitor (right, left));
+  }
+
+  void window_on_monitor_spanning () {
+    // A window across two monitors belongs to exactly the one holding its
+    // center, side by side and stacked alike
+    Gdk.Rectangle left = { 0, 0, 1920, 1080 };
+    Gdk.Rectangle right = { 1920, 0, 1920, 1080 };
+    Gdk.Rectangle mostly_left = { 1400, 100, 800, 600 };
+    Gdk.Rectangle mostly_right = { 1700, 100, 800, 600 };
+    assert (window_on_monitor (mostly_left, left));
+    assert (!window_on_monitor (mostly_left, right));
+    assert (window_on_monitor (mostly_right, right));
+    assert (!window_on_monitor (mostly_right, left));
+
+    Gdk.Rectangle upper = { 0, 0, 1920, 1080 };
+    Gdk.Rectangle lower = { 0, 1080, 1920, 1080 };
+    Gdk.Rectangle mostly_lower = { 100, 900, 800, 600 };
+    assert (window_on_monitor (mostly_lower, lower));
+    assert (!window_on_monitor (mostly_lower, upper));
+
+    // A window off every monitor, as in a gap of an L-shaped layout,
+    // belongs to none
+    Gdk.Rectangle in_gap = { 2000, 1200, 400, 300 };
+    assert (!window_on_monitor (in_gap, upper));
+    assert (!window_on_monitor (in_gap, lower));
+    assert (!window_on_monitor (in_gap, right));
+  }
+
+  void window_on_monitor_edges () {
+    // A center on the shared edge belongs to the monitor starting there,
+    // as the rectangles exclude their far edges
+    Gdk.Rectangle left = { 0, 0, 1920, 1080 };
+    Gdk.Rectangle right = { 1920, 0, 1920, 1080 };
+    Gdk.Rectangle centered_on_edge = { 1520, 100, 800, 600 };
+    assert (window_on_monitor (centered_on_edge, right));
+    assert (!window_on_monitor (centered_on_edge, left));
+
+    // A center one pixel short of the edge still belongs to the first
+    Gdk.Rectangle just_left = { 1519, 100, 800, 600 };
+    assert (window_on_monitor (just_left, left));
+    assert (!window_on_monitor (just_left, right));
   }
 }
